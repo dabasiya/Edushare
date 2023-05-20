@@ -1,0 +1,257 @@
+.thumbnil {
+    width: 40%;
+    height: 100%;
+}
+
+.videobarmargin {
+    margin-bottom: 5%;
+}
+
+
+@media (max-width: 576px) {
+    .menu {
+        width: 100%;
+        height: 10%;
+        display: flex;
+        justify-content: center;
+        border: solid 1px white;
+    }
+
+    .videobar {
+        width: 100%;
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .videobarmargin {
+        margin-bottom: 10%;
+    }
+
+    .menubutton {
+        margin-top: 7px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .menutext {
+        margin-left: 0px;
+    }
+
+    .navcss {
+        display: flex;
+        justify-content: center;
+    }
+
+    .logo {
+        width: 0px;
+        height: 0px;
+        visibility: hidden;
+    }
+
+    .videoandcomments {
+        height: 55%;
+        width: 100%;
+        overflow: hidden;
+        margin-left: 10px;
+    }
+    
+
+    .video {
+        width: 100%;
+        height: 60%;
+    }
+
+    .suggestedvideos {
+        margin-left: 10px;
+        width: 100%;
+        height: 44%;
+    }
+
+    .comments {
+        height: 10%;
+    }
+
+    .thumbnil {
+        width: 100%;
+    }
+}
+
+@media (min-width: 576px) {
+
+    .menu {
+        width: 25%;
+        height: 100%;
+    }
+
+    .videobar {
+        width: 75%;
+        height: 100%;
+    }
+
+    .menubutton {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .menutext {
+        margin-left: 20px;
+    }
+
+    .navcss {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .videoandcomments {
+        overflow: auto;
+        height: 100%;
+    }
+
+    .video {
+        width: 100%;
+        height: 35%;
+    }
+
+    .suggestedvideos {
+        height: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .menu {
+        width: 15%;
+        height: 100%;
+    }
+
+    .videobar {
+        width: 85%;
+        height: 100%;
+    }
+
+    .navcss {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .videoandcomments {
+        overflow: auto;
+        height: 100%;
+    }
+
+    .video {
+        width: 100%;
+        height: 45%;
+    }
+
+    .suggestedvideos {
+        height: 100%;
+    }
+}
+
+@media (min-width: 992px) {
+    .menu {
+        width: 15%;
+        height: 100%;
+    }
+
+    .videobar {
+        width: 85%;
+        height: 100%;
+    }
+
+    .navcss {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .videoandcomments {
+        overflow: auto;
+        height: 100%;
+    }
+
+    .video {
+        width: 100%;
+        height: 55%;
+    }
+
+    .suggestedvideos {
+        height: 100%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .menu {
+        width: 15%;
+        height: 100%;
+    }
+
+    .videobar {
+        width: 85%;
+        height: 100%;
+    }
+
+    .navcss {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .videoandcomments {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 100%;
+    }
+
+    .video {
+        width: 100%;
+        height: 70%;
+    }
+
+    .suggestedvideos {
+        height: 100%;
+    }
+
+    ::-webkit-scrollbar {
+        width: 20px;
+    }
+    
+    
+    
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 20px rgb(0, 0, 0); 
+        -webkit-box-color: black;
+    }
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.librarymenu {
+    border: solid black 1px;
+    border-radius: 9px;
+}
+
+.videobar {
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.buttons {
+    width: 50%;
+}
+
+.comments {
+    transition: 0.5s;
+}
+
+.videoandcomments {
+    transition: 0.5s;
+}
+
+

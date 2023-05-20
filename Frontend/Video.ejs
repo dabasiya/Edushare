@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edushare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="Home.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+</head>
+
+<body onresize="set()">
+    <div class="row" style="height: 10%;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navcss" style="position: sticky; padding: 0px;">
+            <a style="margin-left: 30px;" class="navbar-brand logo" href="/">
+                <h1 class="text-dark" style="font-family: 'Brush Script MT', cursive;">Edushare</h1>
+            </a>
+
+            <div style="display : flex">
+                <form method="get" action="/search" class="d-flex">
+                    <input type="text" class="form-control" name="keyword" placeholder="Search" style="margin-right: 10px;">
+                    <button class="bi bi-search bg-light text-secondary" style="margin-right: 20px; border-radius: 9px; border: 1px solid grey"></button>
+                </form>
+            </div>
+
+        </nav>
+    </div>
+    <div class="row menuandvideos d-flex flex-sm-row flex-md-row flex-lg-row flex-xl-row flex-column-reverse"
+        style="height: 90%;">
+
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-xs-12 bg-light menu" id="menu">
+            <!-- Home -->
+            <a href="/" class="d-flex justify-content-start"
+                style="text-decoration: none; color: black; margin-top: 10px;">
+                <div class="menubutton" style="margin-left: 20px;">
+                    <div class="bi bi-house-door-fill d-flex justify-content-center" style="margin-top: 3px;"></div>
+                    <h6 class="d-flex justify-content-center menutext">Home</h6>
+                </div>
+            </a>
+
+            <!-- Library -->
+            <a href="/library" class="d-flex justify-content-start"
+                style="text-decoration: none; color: black; margin-top: 10px;">
+                <div class="menubutton" style="margin-left: 20px;">
+                    <div class="bi bi-book-half d-flex justify-content-center" style="margin-top: 3px;"></div>
+                    <h6 class="d-flex justify-content-center menutext">Library</h6>
+                </div>
+            </a>
+
+            
+        </div>
+
+
+        <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-12 bg-light videobar row overflow-hidden">
+            <div class="videoandcomments col-xl-8 col-lg-8 col-md-8 col-sm-7 col-xs-12 mt-1" style="color: white;"
+                id="videoandcomments">
+                <video src="" id="video" allowfullscreen frameborder="0" class="col-12 video" controls autoplay></video>
+                <div class="col-12 bg-light" style="color: black; border-radius: 9px; border: 1px solid grey;">
+                    <h6 style="margin-left: 10px;" id="title">Python tutorial for Begginer by Vinay Patel</h6>
+                    <div style="margin-left: 10px; font-size: 11px; color: grey;" id="views">1M views</div>
+                    <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-between buttons">
+                            <div class="like d-flex justify-content-center" onclick="like()">
+                                <div class="bi bi-hand-thumbs-up" id="like-icon"></div>
+                                <p style="margin-left: 5px;" id="likes">Like</p>
+                            </div>
+
+                            <div class="save d-flex justify-content-center" onclick="save()">
+                                <div class="bi bi-plus-square" id="save-icon"></div>
+                                <p style="margin-left: 5px;">Save</p>
+                            </div>
+
+                            <div class="report d-flex justify-content-center" onclick="report()">
+                                <div class="bi bi-flag" id="report-icon"></div>
+                                <p style="margin-left: 5px;">Report</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="comments col-12 bg-light text-dark" style="border-radius: 9px; border: 1px solid grey; margin-top: 5px; padding-bottom: 20px; overflow: hidden;" id="comments">
+                    <div class="d-flex justify-content-between" style="margin: 0px;">
+                        <h5 style="margin: 0px;">Comments</h5>
+                        <p style="padding-right: 10px; color: black; margin: 0px;" id="commentbutton" onclick="showcomments()"></p>
+                    </div>
+                    <div class="row" style="margin: 0px; margin-top: 10px;">
+                        <div class="col-12 d-flex justify-content-center" style="padding: 0px;">
+                            <input type="text" class="form-control" style="padding: 0px; width: 70%;" id="commentinput">
+                            <button class="btn btn-primary" style="width: 20%" onclick="comment()">Comment</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-xs-12 suggestedvideos overflow-auto" id="videos">
+                <script>
+                    $.post('/loggedin', (result) => {
+                    var a = document.createElement("a");
+                    var div = document.createElement("div");
+                    var div2 = document.createElement("div");
+                    var h6 = document.createElement("h6");
+
+                    a.setAttribute("class", "d-flex justify-content-start");
+                    a.setAttribute("style", "text-decoration: none; color: black; margin-top: 10px;");
+
+                    div.setAttribute("class", "menubutton");
+                    div.setAttribute("style", "margin-left: 20px");
+
+                    div2.setAttribute("style", "margin-top: 3px;");
+
+                    h6.setAttribute("class", "d-flex justify-content-center menutext");
+                    if (result) {
+                        a.setAttribute("href", "/logout");
+                        div2.setAttribute("class", "bi bi-box-arrow-in-left d-flex justify-content-center");
+                        h6.innerHTML = "Log Out";
+                    } else {
+                        a.setAttribute("href", "/login");
+                        div2.setAttribute("class", "bi bi-box-arrow-in-right d-flex justify-content-center");
+                        h6.innerHTML = "Login";
+                    }
+                    div.appendChild(div2);
+                    div.appendChild(h6);
+                    a.appendChild(div);
+
+                    document.getElementById("menu").appendChild(a);
+                });
+
+                    
+                    var data = <%- videodata %>;
+
+                    document.getElementById("title").innerText = data[0].title;
+                    document.getElementById("likes").innerText = data[0].likes*1;
+                    document.getElementById("views").innerText = data[0].video_views*1 + " Views";
+
+                    document.getElementById("video").setAttribute("src","/videos?id="+data[0].id);
+                   
+                    $.post('/isliked', {id : data[0].id}, (result) => {
+                        if(result == true) {
+                            document.getElementById('like-icon').setAttribute("class","bi bi-hand-thumbs-up-fill");
+                        }
+                    });
+
+                    $.post('/issaved', {id : data[0].id},(result) => {
+                        if(result == true) {
+                            document.getElementById('save-icon').setAttribute("class","bi bi-plus-square-fill");
+                        }
+                    });
+
+                    if (document.body.clientWidth < 576) {
+                        document.getElementById('commentbutton').innerHTML = 'Show';
+                    }
+                    commentsvisible = false;
+
+                    function report() {
+                        $.post('/report',{id: data[0].id},(result)=> {
+                            if(!result) {
+                                window.location.assign('/login');
+                            } else {
+                                $.notify("Video Reported", "success");
+                            }
+                        });
+                    }
+
+                    function set() {
+                        if (document.body.clientWidth < 576 && commentsvisible == false) {
+                            document.getElementById('commentbutton').innerHTML = 'Show';
+                        } else if (document.body.clientWidth < 576 && commentsvisible == true) {
+                            document.getElementById('commentbutton').innerHTML = 'Hide';
+                        }
+                        else {
+                            document.getElementById('commentbutton').innerHTML = '';
+                        }
+                    }
+
+                    function showcomments() {
+                        if (document.body.clientWidth < 576) {
+                            if (commentsvisible) {
+                                document.getElementById('videoandcomments').style = 'height : 55%';
+                                document.getElementById('video').style = 'height : 60%;';
+                                document.getElementById('comments').style = 'overflow : hidden; border-radius : 9px; margin-top: 5px;';
+                                commentsvisible = false;
+                            } else {
+                                document.getElementById('videoandcomments').style = 'height : 99%';
+                                document.getElementById('video').style = 'height : 40%;';
+                                document.getElementById('comments').style = 'overflow : auto; border-radius : 9px; margin-top: 5px; height: 43%';
+                                commentsvisible = true;
+                            }
+                            set();
+                        }
+                    }
+
+                    function addvideocontainer() {
+                    $.post('/getrandomvideoscontainer', async (result) => {
+                        var video_container = document.createElement("div");
+                        video_container.setAttribute("class","video_container row");
+                        for(i=0; i<result.length; i++) {
+                            var videobar = document.createElement("a");
+                            var div1 = document.createElement("div");
+                            var div2 = document.createElement("div");
+                            var img = document.createElement("img");
+                            var div3 = document.createElement("div");
+                            var div4 = document.createElement("div");
+                            var title = document.createElement("h6");
+                            var uploader = document.createElement("p");
+                            var views = document.createElement("p");
+                            var date = document.createElement("p");
+
+                            // set videobar content
+                            videobar.setAttribute("href","/video?id="+result[i].id);
+                            videobar.setAttribute("class","col-xs-12 col-sm-6 col-md-6 col-lg-3 col-xl-3");
+                            videobar.setAttribute("style","text-decoration: none; width: 100%; margin-top: 10px; margin-bottom:10px");
+
+
+                            div1.setAttribute("class","bg-secondary");
+                            div1.setAttribute("style","margin-top: 5px; width: 100%; border-radius: 9px");
+
+                            div2.setAttribute("class","card bg-light");
+                            div2.setAttribute("style","width: 100%; padding: 5px;");
+
+                            if(result[i].video_type == 'ytube')
+                                img.setAttribute("src","https://i.ytimg.com/vi/"+result[i].link_thumbnil+"/sddefault.jpg");
+                            else 
+                                img.setAttribute("src","thumbnil?id="+result[i].id+"."+result[i].link_thumbnil);
+                            img.setAttribute("class","card-img-top");
+                            img.setAttribute("style","height:70%; border-radius: 5px;");
+
+                            div3.setAttribute("class","card-body bg-light");
+                            div3.setAttribute("style","color:white; padding-bottom: 0px;");
+
+                            views.setAttribute("style","color:grey;font-size:11px");
+                            views.innerText = result[i].video_views*1 + " Views";
+
+                            date.setAttribute("style","color:grey;font-size:11px");
+                            var d = new Date(result[i].upload_date);
+                            date.innerText = d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
+
+                            div4.setAttribute("class","d-flex justify-content-between");
+                            div4.appendChild(views);
+                            div4.appendChild(date);
+                            div4.setAttribute("style","height:40%;");
+
+                            title.innerText = result[i].title;
+                            title.setAttribute("style","height: 40%; color: black;");
+
+                            div3.appendChild(title);
+                            uploader.setAttribute("style","color:grey; font-size:14px; height:20%")
+                            uploader.innerText = "By " + result[i].username;
+
+                            div3.appendChild(title);
+                            div3.appendChild(uploader);
+                            div3.appendChild(div4);
+
+                            div2.appendChild(img);
+                            div2.appendChild(div3);
+
+                            div1.appendChild(div2);
+
+                            videobar.appendChild(div1);
+                            video_container.appendChild(videobar);
+                        }
+                        document.getElementById('videos').appendChild(video_container);
+                    });
+                }
+                addvideocontainer();
+                function save() {
+                    $.post('/save',{id : data[0].id},(result) => {
+                        if(result == "login") {
+                            window.location.assign("/login");
+                        } else {
+                            if(result == true) {
+                                document.getElementById('save-icon').setAttribute("class","bi bi-plus-square-fill");
+                            } else {
+                                document.getElementById('save-icon').setAttribute("class","bi bi-plus-square");
+                            }
+                        }
+                    });
+                }
+
+                function comment() {
+                    $.post('/comment',{id : data[0].id, comment : document.getElementById('commentinput').value},(result)=> {
+                        if(result == false) {
+                            window.location.assign('/login');
+                        }
+                    });
+                    addcomment("You",document.getElementById('commentinput').value);
+                    document.getElementById('commentinput').value = "";
+                }
+
+                function addcomment(usernametext,commenttext) {
+                    var commentbox = document.createElement("div");
+                    var username = document.createElement("div");
+                    var comment = document.createElement("div");
+
+                    username.setAttribute("style","font-size: 11px; color: grey;");
+                    username.setAttribute("class","col-12");
+                    username.innerHTML = "By " + usernametext;
+
+                    comment.setAttribute("style","font-size: 13px; line-break: anywhere;");
+                    comment.setAttribute("class","col-12");
+                    comment.innerHTML = commenttext;
+
+                    commentbox.setAttribute("style","margin-left: 3%; margin-right: 3%; border: 1px solid grey; margin-top: 10px; border-radius: 9px;");
+                    commentbox.setAttribute("class","row");
+
+                    commentbox.appendChild(username);
+                    commentbox.appendChild(comment);
+
+                    document.getElementById('comments').appendChild(commentbox);
+                }
+
+                function videocomments() {
+                    $.post('/videocomments',{id : data[0].id},(result)=>{
+                        console.log(result);
+                        index = 0;
+                        while(result[index]) {
+                            addcomment(result[index].username,result[index].comment);
+                            index++;
+                        }
+                    });
+                }
+
+                function like() {
+                    $.post('/like',{id : data[0].id},(result) => {
+                        if(result == "login") {
+                            window.location.assign('/login');
+                        } else {
+                            document.getElementById('likes').innerText = result.count*1;
+                            if(result.liked == true) {
+                                document.getElementById('like-icon').setAttribute("class","bi bi-hand-thumbs-up-fill");
+                            } else {
+                                document.getElementById('like-icon').setAttribute("class","bi bi-hand-thumbs-up");
+                            }
+                        }
+                        console.log(result);
+                    });
+                }
+                window.onload = function() {
+                    videocomments();
+                }
+
+                </script>
+                <style>
+                    ::-webkit-scrollbar {
+                        width: 10px;
+                    }
+                </style>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edushare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+</head>
+
+<body style="overflow: hidden; height: 100%;">
+    <div class="row bg-light" style="height: 100%">
+        <div class="col-md-3 col-lg-3 col-xl-4 col-2"></div>
+        <div class="col-md-6 col-lg-6 col-xl-4 col-8 text-center d-flex flex-column justify-content-center">
+            <div>
+                <h1 class="text-dark" style="font-family: 'Brush Script MT', cursive;">Edushare</h1>
+                <input type="email" class="form-control my-3" placeholder="Email" name="email" id="email" oninput="checkemail()">
+                <div id="emailerror" style="padding: 0px; color:red;"></div>
+
+                <div class="input-group my-3">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                    <input type="text" class="form-control" placeholder="Username" name="username" id="username" maxlength="20" oninput="checkusername()">
+                </div>
+                <div id="usernameerror" style="padding: 0px; color: red;"></div>
+
+                <input type="password" class="form-control my-3" placeholder="Password" name="password" id="password" oninput="checkpassword()">
+                <div id="passworderror" style="padding: 0px; color: red;"></div>
+                <input type="password" class="form-control my-3" placeholder="Conform Password" name="conformpassword" id="conformpassword" oninput="checkconformpassword()">
+                <div id="conformpassworderror" style="padding: 0px; color: red;"></div>
+
+                <div>
+                    <button class="btn btn-outline-primary my-3" id="submitbutton" onclick="register()">Register</button>
+                </div>
+                or
+                <div class="my-1">
+                    <a href="/login" class="btn btn-primary"> 
+                        Login
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3 col-xl-4 col-2"></div>
+    </div>
+
+    <script>
+
+        function register() {
+            $.post('/register', {email : document.getElementById('email').value, username : document.getElementById('username').value, password : document.getElementById('password').value, conformpassword : document.getElementById('conformpassword').value}, (result) => {
+                if(result == true) {
+                    window.location.assign('/');
+                } else {
+                    $.notify("fill detail correctly", "error");
+                }
+            })
+        }
+        function checkusername() {
+            $.post('/checkusername', {username : document.getElementById('username').value}, function(result) {
+                if(result == false) {
+                    document.getElementById('usernameerror').innerHTML = "Username already Exist";
+                } else {
+                    document.getElementById('usernameerror').innerHTML = "";
+                }
+            });
+        }
+
+        function checkemail() {
+            $.post('/checkemail', {email : document.getElementById('email').value}, function(result) {
+                if(result == false) {
+                    document.getElementById('emailerror').innerHTML = "Email already Exist";
+                } else {
+                    document.getElementById('emailerror').innerHTML = "";
+                }
+            });
+        }
+
+        function checkpassword() {
+            $.post('/checkpassword', {password : document.getElementById('password').value}, function(result) {
+                console.log(result);
+                if(result == false) {
+                    document.getElementById('passworderror').innerHTML = "Invalid Password";
+                } else {
+                    document.getElementById('passworderror').innerHTML = "";
+                }
+            });
+        }
+
+        function checkconformpassword() {
+            $.post('/checkconformpassword', {password : document.getElementById('password').value, conformpassword : document.getElementById('conformpassword').value}, function(result) {
+                if(result == false) {
+                    document.getElementById('conformpassworderror').innerHTML = "Password and Conform Password does not match";
+                } else {
+                    document.getElementById('conformpassworderror').innerHTML = "";
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
